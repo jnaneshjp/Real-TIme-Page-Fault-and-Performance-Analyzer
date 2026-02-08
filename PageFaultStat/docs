@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>faultstat Observatory</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-texture"></div>
+  <main class="shell">
+    <header class="masthead">
+      <div class="title-block">
+        <p class="eyebrow">Realtime monitor</p>
+        <h1>faultstat observatory</h1>
+        <p class="lede">A browser-native glance at page fault pressure. Each refresh streams live data straight from /proc.</p>
+      </div>
+      <div class="masthead-meta">
+        <span class="timestamp" id="timestamp">Awaiting first sample…</span>
+        <button id="refreshBtn" type="button">Force refresh</button>
+      </div>
+    </header>
+
+    <section class="metrics" aria-label="Current totals">
+      <article class="metric-card">
+        <p>Major faults</p>
+        <h2 id="majorTotal">0</h2>
+        <span id="majorDelta" class="delta neutral">Δ 0</span>
+      </article>
+      <article class="metric-card">
+        <p>Minor faults</p>
+        <h2 id="minorTotal">0</h2>
+        <span id="minorDelta" class="delta neutral">Δ 0</span>
+      </article>
+      <article class="metric-card">
+        <p>Processes tracked</p>
+        <h2 id="processCount">0</h2>
+        <span class="delta muted">live snapshot</span>
+      </article>
+    </section>
+
+    <section class="table-card" aria-label="Process list">
+      <header>
+        <div>
+          <h2>Process fault streams</h2>
+          <p>Sorted and filtered client-side without reloading the page.</p>
+        </div>
+        <div class="controls">
+          <label>
+            Sort by
+            <select id="sortSelect">
+              <option value="delta" selected>Delta faults</option>
+              <option value="major">Major faults</option>
+              <option value="minor">Minor faults</option>
+            </select>
+          </label>
+          <input type="search" id="searchInput" placeholder="Filter by command or PID" />
+        </div>
+      </header>
+      <div class="table-wrapper">
+        <table id="processTable">
+          <thead>
+            <tr>
+              <th>PID</th>
+              <th>User</th>
+              <th>Major</th>
+              <th>Minor</th>
+              <th>Δ Major</th>
+              <th>Δ Minor</th>
+              <th>Swap</th>
+              <th>Command</th>
+            </tr>
+          </thead>
+          <tbody id="processBody">
+            <tr>
+              <td colspan="8" class="placeholder">Collecting metrics…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="status" aria-live="polite">
+      <p id="statusMessage">Sampling every 1.5 seconds.</p>
+    </section>
+  </main>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>
